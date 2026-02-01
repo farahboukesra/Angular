@@ -1,12 +1,8 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { Suggestion } from '../../models/suggestion';
 
 @Component({
   selector: 'app-list-suggestion',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
   templateUrl: './list-suggestion.component.html',
   styleUrls: ['./list-suggestion.component.css']
 })
