@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { Suggestion } from '../../models/suggestion';
-
+import { Suggestion } from '../../../models/suggestion';
 @Component({
   selector: 'app-list-suggestion',
   templateUrl: './list-suggestion.component.html',
@@ -54,13 +53,16 @@ export class ListSuggestionComponent {
   }
 
   addToFavorites(suggestion: Suggestion): void {
-    if (!this.favorites.find(fav => fav.id === suggestion.id)) {
-      this.favorites.push(suggestion);
-      alert(`"${suggestion.title}" ajouté aux favoris !`);
-    } else {
-      alert('Cette suggestion est déjà dans les favoris !');
-    }
+  const index = this.favorites.findIndex(fav => fav.id === suggestion.id);
+  
+  if (index === -1) {
+    this.favorites.push(suggestion);
+    alert(`"${suggestion.title}" ajouté aux favoris !`);
+  } else {
+    this.favorites.splice(index, 1);
+    alert(`"${suggestion.title}" retiré des favoris !`);
   }
+}
 
   getFilteredSuggestions(): Suggestion[] {
     if (!this.searchTerm) {
@@ -74,7 +76,6 @@ export class ListSuggestionComponent {
     );
   }
 
-  // ← AJOUTEZ CETTE NOUVELLE MÉTHODE ICI
   isFavorite(suggestion: Suggestion): boolean {
     return this.favorites.some(fav => fav.id === suggestion.id);
   }
