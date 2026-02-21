@@ -1,0 +1,58 @@
+<form [formGroup]="suggestionForm" (ngSubmit)="onSubmit()">
+
+  <div>
+    <label>Titre :</label>
+    <input type="text" formControlName="title" />
+    <div *ngIf="suggestionForm.get('title')?.invalid && suggestionForm.get('title')?.touched">
+      <small *ngIf="suggestionForm.get('title')?.errors?.['required']">
+        Le titre est obligatoire.
+      </small>
+      <small *ngIf="suggestionForm.get('title')?.errors?.['minlength']">
+        Le titre doit contenir au moins 5 caractères.
+      </small>
+      <small *ngIf="suggestionForm.get('title')?.errors?.['pattern']">
+        Le titre doit commencer par une majuscule et ne contenir que des lettres.
+      </small>
+    </div>
+  </div>
+
+  <div>
+    <label>Description :</label>
+    <textarea formControlName="description"></textarea>
+    <div *ngIf="suggestionForm.get('description')?.invalid && suggestionForm.get('description')?.touched">
+      <small *ngIf="suggestionForm.get('description')?.errors?.['required']">
+        La description est obligatoire.
+      </small>
+      <small *ngIf="suggestionForm.get('description')?.errors?.['minlength']">
+        La description doit contenir au moins 30 caractères.
+      </small>
+    </div>
+  </div>
+
+  <!-- Catégorie -->
+  <div>
+    <label>Catégorie :</label>
+    <select formControlName="category">
+      <option value="">-- Sélectionnez une catégorie --</option>
+      <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+    </select>
+    <div *ngIf="suggestionForm.get('category')?.invalid && suggestionForm.get('category')?.touched">
+      <small *ngIf="suggestionForm.get('category')?.errors?.['required']">
+        La catégorie est obligatoire.
+      </small>
+    </div>
+  </div>
+
+  <div>
+    <label>Date :</label>
+    <input type="text" formControlName="date" />
+  </div>
+
+  <div>
+    <label>Status :</label>
+    <input type="text" formControlName="status" />
+  </div>
+
+  <button type="submit" [disabled]="suggestionForm.invalid">Soumettre</button>
+
+</form>

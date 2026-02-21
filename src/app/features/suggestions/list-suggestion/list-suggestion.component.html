@@ -2,6 +2,8 @@
   <div class="main-content">
     <h1 class="page-title">Liste des suggestions</h1>
 
+    <button (click)="goToForm()" class="btn-add">➕ Ajouter une suggestion</button>
+
     <div class="search-bar">
       <input 
         type="text" 
@@ -13,6 +15,7 @@
 
     <div class="suggestions-list">
       <div *ngFor="let suggestion of getFilteredSuggestions()" class="suggestion-card">
+
         <h3 class="suggestion-title">{{ suggestion.title }}</h3>
         
         <div class="suggestion-meta">
@@ -35,7 +38,6 @@
           <button class="btn-like" (click)="incrementLikes(suggestion)">
             👍 Like {{ suggestion.nbLikes }}
           </button>
-          
           <button 
             class="btn-favorite" 
             [class.btn-favorite-active]="isFavorite(suggestion)"
@@ -43,39 +45,13 @@
             <ng-container *ngIf="isFavorite(suggestion); else notFavorite">
               ⭐ Dans les favoris
             </ng-container>
-            <ng-template #notFavorite>
-              🤍 Ajouter aux favoris
-            </ng-template>
+            <ng-template #notFavorite>🤍 Ajouter aux favoris</ng-template>
           </button>
-
-          <button 
-            class="btn-details" 
-            [routerLink]="['/suggestions', suggestion.id]">
-            📄 Détails
-          </button>
+          <button class="btn-details" (click)="goToDetails(suggestion)">
+  📄 Détails
+</button>
         </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="sidebar-favorites">
-    <h2 class="favorites-title">⭐ Mes Favoris</h2>
-    
-    <div *ngIf="favorites.length === 0" class="empty-favorites">
-      <p>Aucun favori pour le moment</p>
-      <p style="font-size: 3rem;">🤍</p>
-    </div>
-
-    <div class="favorites-list">
-      <div *ngFor="let fav of favorites" class="favorite-item">
-        <div class="favorite-header">
-          <h4>{{ fav.title }}</h4>
-          <button class="btn-remove" (click)="addToFavorites(fav)" title="Retirer des favoris">
-            ✖
-          </button>
-        </div>
-        <p class="favorite-category">{{ fav.category }}</p>
-        <p class="favorite-likes">👍 {{ fav.nbLikes }} likes</p>
       </div>
     </div>
   </div>

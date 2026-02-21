@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { Suggestion } from '../../../models/suggestion';
+
 @Component({
   selector: 'app-list-suggestion',
   templateUrl: './list-suggestion.component.html',
   styleUrls: ['./list-suggestion.component.css']
 })
 export class ListSuggestionComponent {
+
   suggestions: Suggestion[] = [
     {
       id: 1,
@@ -48,27 +51,34 @@ export class ListSuggestionComponent {
   favorites: Suggestion[] = [];
   searchTerm: string = '';
 
+  constructor(private router: Router) {
+    const navigation = this.router.getCurrentNavigation();
+    const state = navigation?.extras?.state as { newSuggestion: Suggestion };
+
+    if (state?.newSuggestion) {
+      this.suggestions.push(state.newSuggestion); 
+    }
+  }
+
   incrementLikes(suggestion: Suggestion): void {
     suggestion.nbLikes++;
   }
 
   addToFavorites(suggestion: Suggestion): void {
-  const index = this.favorites.findIndex(fav => fav.id === suggestion.id);
-  
-  if (index === -1) {
-    this.favorites.push(suggestion);
-    alert(`"${suggestion.title}" ajouté aux favoris !`);
-  } else {
-    this.favorites.splice(index, 1);
-    alert(`"${suggestion.title}" retiré des favoris !`);
+    const index = this.favorites.findIndex(fav => fav.id === suggestion.id);
+    if (index === -1) {
+      this.favorites.push(suggestion);
+      alert(`"${suggestion.title}" ajouté aux favoris !`);
+    } else {
+      this.favorites.splice(index, 1);
+      alert(`"${suggestion.title}" retiré des favoris !`);
+    }
   }
-}
 
   getFilteredSuggestions(): Suggestion[] {
     if (!this.searchTerm) {
       return this.suggestions;
     }
-    
     const term = this.searchTerm.toLowerCase();
     return this.suggestions.filter(suggestion =>
       suggestion.title.toLowerCase().includes(term) ||
@@ -79,4 +89,13 @@ export class ListSuggestionComponent {
   isFavorite(suggestion: Suggestion): boolean {
     return this.favorites.some(fav => fav.id === suggestion.id);
   }
+
+  goToForm(): void {
+    this.router.navigate(['/suggestions/add']);
+  }
+  goToDetails(suggestion: Suggestion): void {
+  this.router.navigate(['/suggestions', suggestion.id], {
+    state: { newSuggestion: suggestion } 
+  });
+}
 }

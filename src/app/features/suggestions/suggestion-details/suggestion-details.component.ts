@@ -51,14 +51,16 @@ export class SuggestionDetailsComponent implements OnInit {
     }
   ];
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router
-  ) {}
+  constructor(private route: ActivatedRoute, private router: Router) {
+  const navigation = this.router.getCurrentNavigation();
+  const state = navigation?.extras?.state as { newSuggestion: Suggestion };
+  if (state?.newSuggestion) {
+    this.suggestions.push(state.newSuggestion); 
+  }
+}
 
   ngOnInit(): void {
     this.suggestionId = Number(this.route.snapshot.paramMap.get('id'));
-    
     this.suggestion = this.suggestions.find(s => s.id === this.suggestionId);
   }
 
