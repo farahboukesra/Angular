@@ -7,14 +7,14 @@
     <div class="search-bar">
       <input 
         type="text" 
-        [(ngModel)]="searchTerm" 
+        [(ngModel)]="searchText"
         placeholder="Rechercher une suggestion"
         class="search-input"
       />
     </div>
 
     <div class="suggestions-list">
-      <div *ngFor="let suggestion of getFilteredSuggestions()" class="suggestion-card">
+      <div *ngFor="let suggestion of filteredSuggestions()" class="suggestion-card">
 
         <h3 class="suggestion-title">{{ suggestion.title }}</h3>
         
@@ -30,26 +30,28 @@
           'status-refusee': suggestion.status === 'refusee',
           'status-attente': suggestion.status === 'en_attente'
         }">
-          {{ suggestion.status === 'acceptee' ? 'ACCEPTÉE' : 
-             suggestion.status === 'refusee' ? 'REFUSÉE' : 'EN ATTENTE' }}
+          {{ formatStatus(suggestion.status) }}
         </span>
 
         <div class="actions" *ngIf="suggestion.status !== 'refusee'">
-          <button class="btn-like" (click)="incrementLikes(suggestion)">
+          <button class="btn-like" (click)="likeSuggestion(suggestion)">
             👍 Like {{ suggestion.nbLikes }}
           </button>
           <button 
             class="btn-favorite" 
-            [class.btn-favorite-active]="isFavorite(suggestion)"
+            [class.btn-favorite-active]="favorites.includes(suggestion)"
             (click)="addToFavorites(suggestion)">
-            <ng-container *ngIf="isFavorite(suggestion); else notFavorite">
+            <ng-container *ngIf="favorites.includes(suggestion); else notFavorite">
               ⭐ Dans les favoris
             </ng-container>
             <ng-template #notFavorite>🤍 Ajouter aux favoris</ng-template>
           </button>
           <button class="btn-details" (click)="goToDetails(suggestion)">
-  📄 Détails
-</button>
+            📄 Détails
+          </button>
+          <button class="btn-delete" (click)="deleteSuggestion(suggestion.id)">
+            🗑️ Supprimer
+          </button>
         </div>
 
       </div>

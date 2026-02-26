@@ -34,9 +34,14 @@
       </div>
     </div>
 
-    <button class="btn-back" (click)="goBackToList()">
-      ⬅ Retour à la liste
-    </button>
+   <div class="btn-actions">
+  <button class="btn-update" [routerLink]="['/suggestions/update', suggestion.id]">
+    ✏️ Update
+  </button>
+  <button class="btn-back" (click)="goBackToList()">
+    ⬅ Retour à la liste
+  </button>
+</div>
   </div>
 
   <ng-template #notFound>

@@ -79,19 +79,45 @@
   color: #333;
 }
 
+/* ✅ Conteneur des boutons */
+.btn-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
 .btn-back {
   padding: 0.7rem 1.5rem;
   background-color: #6c757d;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 1rem;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .btn-back:hover {
   background-color: #5a6268;
+  transform: translateY(-2px);
+}
+
+/* ✅ Bouton Update */
+.btn-update {
+  padding: 0.7rem 1.5rem;
+  background-color: #ffc107;
+  color: #333;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-update:hover {
+  background-color: #e0a800;
+  transform: translateY(-2px);
 }
 
 .not-found {
